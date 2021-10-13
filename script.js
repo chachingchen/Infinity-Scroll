@@ -5,7 +5,7 @@ const imageContainer = document.getElementById('image-container');
 const loader = document.getElementById('loader');
 
 let ready = false;
-let imagesLoaded = 0;
+let imageCount = 0;
 let totalImages = 0;
 let photosArray = [];
 const count = 30;
@@ -15,9 +15,9 @@ client_id=${apiKey}&count=${count}`;
 
 //check  if all images were loaded
 function imageLoaded() {
-	imagesLoaded++;
+	imageCount++;
 	console.log('image loaded');
-	if(imagesLoaded === totalImages) {
+	if(imageCount === totalImages) {
 		ready = true;
 		loader.hidden = true;
 		console.log('ready = ', ready);
@@ -31,7 +31,7 @@ function setAttributes(element, attributes) {
 }
 // Create Elements for links & photos, add to DOM
 function displayPhotos() {
-	imagesLoaded = 0;
+	imageCount = 0;
 	totalImages = photosArray.length;
 	console.log('totalImages: ', totalImages);
 	// run function for each obj in photosArray
