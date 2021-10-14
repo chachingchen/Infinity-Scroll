@@ -8,10 +8,10 @@ let ready = false;
 let imageCount = 0;
 let totalImages = 0;
 let photosArray = [];
-const count = 30;
+
+let count = 5; //set the initial load photo count low can improve SEO performence when internet is slow
 const apiKey = 'EzKPWJ8MTFfs8kekiq77wJh8-MUu7Vand8aCT6hw4TI';
-const apiUrl = `https://api.unsplash.com/photos/random/?
-client_id=${apiKey}&count=${count}`;
+let apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
 
 //check  if all images were loaded
 function imageLoaded() {
@@ -19,8 +19,10 @@ function imageLoaded() {
 	console.log('image loaded');
 	if(imageCount === totalImages) {
 		ready = true;
-		loader.hidden = true;
+		loader.hidden = true; //only show loader at initial load
 		console.log('ready = ', ready);
+		count = 30; //after initial laod, can increase load photo count
+		apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
 	}
 }
 // helper function to set Attributes on DOM Elements
