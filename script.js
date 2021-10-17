@@ -9,10 +9,16 @@ let imageCount = 0;
 let totalImages = 0;
 let photosArray = [];
 
+let isInitialLoad = true;
 let count = 5; //set the initial load photo count low can improve SEO performence when internet is slow
 const apiKey = 'EzKPWJ8MTFfs8kekiq77wJh8-MUu7Vand8aCT6hw4TI';
-let apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
+const query = 'food-drink';
+let apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&query=${query}&count=${count}`;
 
+//after initial laod, increase load photo count
+function updateNewPhotoCount(newCount) {
+	apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&query=${query}&count=${newCount}`;
+}
 //check  if all images were loaded
 function imageLoaded() {
 	imageCount++;
@@ -20,9 +26,7 @@ function imageLoaded() {
 	if(imageCount === totalImages) {
 		ready = true;
 		loader.hidden = true; //only show loader at initial load
-		console.log('ready = ', ready);
-		count = 30; //after initial laod, can increase load photo count
-		apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
+		console.log('ready = ', ready);		
 	}
 }
 // helper function to set Attributes on DOM Elements
@@ -64,6 +68,11 @@ async function getPhotos() {
 	  const response = await fetch(apiUrl);
 	  photosArray = await response.json();
 	  displayPhotos();
+	  console.log('isInitialLoad:  ',isInitialLoad);
+	  if (isInitialLoad) {
+	  	updateNewPhotoCount(15);
+	  	isInitialLoad = false;
+	  }
 	} catch(error) {
 
 	}
