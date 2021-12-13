@@ -79,7 +79,7 @@ async function getPhotos() {
 }
 
 //Check to see if scrolling near bottom of page, load more photos
-
+//** after scrolling begin the backTop img appears at bottom right
 window.addEventListener('scroll', () =>{
 	if (window.innerHeight + window.scrollY >= 
 		document.body.offsetHeight - 1000 && ready) {
