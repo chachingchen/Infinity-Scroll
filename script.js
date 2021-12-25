@@ -3,6 +3,7 @@
 
 const imageContainer = document.getElementById('image-container');
 const loader = document.getElementById('loader');
+const backTop = document.getElementById('back-to-top');
 
 let ready = false;
 let imageCount = 0;
@@ -22,11 +23,9 @@ function updateNewPhotoCount(newCount) {
 //check  if all images were loaded
 function imageLoaded() {
 	imageCount++;
-	console.log('image loaded');
 	if(imageCount === totalImages) {
 		ready = true;
-		loader.hidden = true; //only show loader at initial load
-		console.log('ready = ', ready);		
+		loader.hidden = true; //only show loader at initial load	
 	}
 }
 // helper function to set Attributes on DOM Elements
@@ -39,7 +38,6 @@ function setAttributes(element, attributes) {
 function displayPhotos() {
 	imageCount = 0;
 	totalImages = photosArray.length;
-	console.log('totalImages: ', totalImages);
 	// run function for each obj in photosArray
 	photosArray.forEach((photo) => {
 		//create <a> to link to unsplash
@@ -68,7 +66,6 @@ async function getPhotos() {
 	  const response = await fetch(apiUrl);
 	  photosArray = await response.json();
 	  displayPhotos();
-	  console.log('isInitialLoad:  ',isInitialLoad);
 	  if (isInitialLoad) {
 	  	updateNewPhotoCount(15);
 	  	isInitialLoad = false;
@@ -81,11 +78,21 @@ async function getPhotos() {
 //Check to see if scrolling near bottom of page, load more photos
 //** after scrolling begin the backTop img appears at bottom right
 window.addEventListener('scroll', () =>{
+	if(document.body.scrollTop > 1200 || document.documentElement.scrollTop > 1200){
+		backTop.style.display = "block";
+	}else{
+		backTop.style.display = "none";
+	}
 	if (window.innerHeight + window.scrollY >= 
 		document.body.offsetHeight - 1000 && ready) {
 		ready = false;
 		getPhotos();
 	}
+});
+
+window.addEventListener('click', ()=>{
+	document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 });
 // on Load
 getPhotos();
